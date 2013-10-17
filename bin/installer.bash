@@ -2,6 +2,26 @@
 #TODO(FL): Add some color to the installer.
 set -o errexit -o nounset -o pipefail
 
+##Dummy dirty logic to check if mesos home path is passed
+mesos_installed=no
+mesos_path=""
+
+set -- $(getopt m: "$@")
+
+while [ $# ]
+do
+	case "$1" in
+	(-m)	shift;
+		mesos_path=$1;;
+	(*) break;
+	esac
+done
+
+if [ -d "$mesos_path" ]; then
+	mesos_installed=yes
+	echo "Mesos Path exists"
+fi
+
 # Global vars
 declare -r BIN_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 declare -r DEFAULT_MESOS_JAR_STRING="0.12.0-SNAPSHOT_JDK1.7"
@@ -109,7 +129,9 @@ echo ; echo "Welcome to the interactive chronos installation. This script will f
 echo "Depending on your hardware and internet connection, this script might take 15 - 25 minutes as we're compiling mesos from source."
 echo "If you run into any issues, please check the FAQ in the chronos repo."
 
-install_mesos
+if [ $mesos_installed == "no" ]; then
+	install_mesos
+fi
 install_chronos
 echo "Starting chronos..."
 bash "${BIN_DIRECTORY}/start-chronos.bash"

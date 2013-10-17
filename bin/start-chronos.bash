@@ -13,7 +13,7 @@ echo "This script is setup to run on MacOSX right now. Modify it to run on other
 MESOS_HOME=/usr/local/mesos
 echo "MESOS_HOME is set to: $MESOS_HOME"
 pushd $MESOS_HOME
-libmesos_file=$(find . -name "libmesos.dylib" | head -n1)
+libmesos_file=$(find . -name "libmesos.so" | head -n1)
 build_env=$(find . -name "mesos-build-env.sh" | head -n1)
 export MESOS_NATIVE_LIBRARY="${MESOS_HOME}/${libmesos_file}"
 echo "MESOS_NATIVE_LIBRARY set to $MESOS_NATIVE_LIBRARY"
