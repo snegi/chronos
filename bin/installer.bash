@@ -4,7 +4,7 @@ set -o errexit -o nounset -o pipefail
 
 ##Dummy dirty logic to check if mesos home path is passed
 mesos_installed=no
-mesos_path=""
+mesos_installation=""
 
 set -- $(getopt m: "$@")
 
@@ -12,12 +12,12 @@ while [ $# ]
 do
 	case "$1" in
 	(-m)	shift;
-		mesos_path=$1;;
+		mesos_installation=$1;;
 	(*) break;
 	esac
 done
 
-if [ -d "$mesos_path" ]; then
+if [ -d "$mesos_installation" ]; then
 	mesos_installed=yes
 	echo "Mesos Path exists"
 fi
